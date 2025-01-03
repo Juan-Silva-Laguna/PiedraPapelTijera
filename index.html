@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piedra Papel o Tijera</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .sinRelleno{
+            background-color: transparent; 
+            border: transparent;
+        }
+        b{
+            color: rgb(177, 160, 177);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-5">
+            <h2>Piedra Papel o Tijera</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-6 col-sm-6">
+                <button class="btn btn-warning mt-2" id="iniciar" onclick="iniciar()">INICIAR</button>
+            </div>
+            <div class="col-md-6 col-6 col-sm-6">
+                <div class="text-right"><b>PUNTAJE: <span id="totPuntaje"></span></b></div>
+            </div>
+        </div>        
+        <div class="row text-center">
+            <div class="col-md-12 col-12 col-sm-12 mt-1">
+                <center>
+                    <img id="gif" style="display: none;" src="./Recursos/gifColor.gif" class="img-fluid" alt="Piedra">
+                    <div class="row" id="resultado">
+                        
+                    </div>
+                </center>
+            </div>         
+            <div class="col-md-4 col-4 col-sm-4 mt-3"><button class="sinRelleno" onclick="pasarEleccion(1)"><img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b></button></div>
+            <div class="col-md-4 col-4 col-sm-4 mt-3"><button class="sinRelleno"  onclick="pasarEleccion(2)"><img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Piedra"><b>PAPEL</b></button></div>
+            <div class="col-md-4 col-4 col-sm-4 mt-3"><button class="sinRelleno"  onclick="pasarEleccion(3)"><img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Piedra"><b>TIJERA</b></button></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        let eleccion = 0, totPuntos=0;
+        function iniciar() {
+            $('#iniciar').attr('disabled','true');
+            $('#gif').css('display','block');
+            $('#resultado').html('');
+            tiempo();
+        }
+        
+        function pasarEleccion(i) {
+            eleccion = i;
+        }
+
+        function generarPuntos(tipo) {
+            switch (tipo) {
+                case -1:
+                    return Math.floor(Math.random() * ((-500) - (-1000))) + (-1000);                    
+                    break;
+                case 0:
+                    return Math.floor(Math.random() * (0 - (-500))) + (-500);                    
+                    break;
+                case 1:
+                    return Math.floor(Math.random() * (500 - 1000)) + 1000;                    
+                    break;
+            }
+        }
+
+        function tiempo() {
+            //1: PIEDRA
+            //2: PAPEL
+            //3: TIJERA
+            let resultado = '';
+            let puntos = 0;
+            setTimeout(() => {
+                let accion = Math.floor(Math.random() * (4 - 1)) + 1;
+                if (eleccion!=0) {
+                    if (eleccion == 1 && accion == 1) {
+                        puntos = 0;
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">EMPATE OBTUVISTE ${puntos} PUNTOS</div>
+                            </div>
+                        `; 
+                    }
+
+                    if (eleccion == 2 && accion == 2) {
+                        puntos = 0;
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div>
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">EMPATE OBTUVISTE ${puntos} PUNTOS</div>
+                            </div>
+                        `; 
+                    }
+
+                    if (eleccion == 3 && accion == 3) {
+                        puntos = 0;
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">EMPATE OBTUVISTE ${puntos} PUNTOS</div>
+                            </div>
+                        `; 
+                    }
+
+                    if (eleccion == 1 && accion == 3) {
+                        puntos = generarPuntos(1);
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">HAS GANADO ${puntos} PUNTOS</div>
+                            </div>
+                        `;                        
+                    }else if(eleccion == 3 && accion == 1) {
+                        puntos = generarPuntos(0);
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>                            
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-danger">HAS PERDIDO ${puntos} PUNTOS</div>
+                            </div>
+                        `;  
+                    }
+
+                    if (eleccion == 2 && accion == 1) {
+                        puntos = generarPuntos(1);
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sisitema</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div>
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">HAS GANADO ${puntos} PUNTOS</div>
+                            </div>
+                        `;                    
+                    }else if(eleccion == 1 && accion == 2) {
+                        puntos = generarPuntos(0);
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPiedra.png" class="img-fluid" width="200px" alt="Piedra"><b>PIEDRA</b>
+                            </div>                         
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-danger">HAS PERDIDO ${puntos} PUNTOS</div>
+                            </div>
+                        `; 
+                    }
+
+                    if (eleccion == 3 && accion == 2) {
+                        puntos = generarPuntos(1);
+                        resultado = `
+                        <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div>
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>  
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-success">HAS GANADO ${puntos} PUNTOS</div>
+                            </div>
+                        `;                        
+                    }else if(eleccion == 2 && accion == 3) {
+                        puntos = generarPuntos(0);
+                        resultado = `
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Sistema</div>
+                                <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                            </div>                             
+                            <div class="col-md-2 col-2 col-sm-2">
+                                <b><br>VS.</b>
+                            </div>
+                            <div class="col-md-5 col-5 col-sm-5">
+                                <div class="alert alert-info mt-2">Tú</div>
+                                <img src="./Recursos/manoPapel.png" class="img-fluid" width="200px" alt="Papel"><b>PAPEL</b>
+                            </div> 
+                            <div class="col-md-12 col-12 col-sm-12">
+                                <div class="alert alert-danger">HAS PERDIDO ${puntos} PUNTOS</div>
+                            </div>
+                        `;   
+                    }
+                }else{
+                    puntos = generarPuntos(-1);
+                    resultado = `
+                        <div class="col-md-5 col-5 col-sm-5">
+                            <div class="alert alert-info mt-2">Sistema</div>
+                            <img src="./Recursos/manoTijera.png" class="img-fluid" width="200px" alt="Tijera"><b>TIJERA</b>
+                        </div>                             
+                        <div class="col-md-2 col-2 col-sm-2">
+                            <b><br>VS.</b>
+                        </div>
+                        <div class="col-md-5 col-5 col-sm-5">
+                            <div class="alert alert-info mt-2">Tú</div>
+                        </div> 
+                        <div class="col-md-12 col-12 col-sm-12">
+                            <div class="alert alert-danger">HAS PERDIDO ${puntos} PUNTOS</div>
+                        </div>
+                    `; 
+                }
+                
+                $('#iniciar').removeAttr("disabled");
+                $('#gif').css('display','none'); 
+                totPuntos += puntos; 
+                $('#resultado').html(resultado); 
+                $('#totPuntaje').html(totPuntos); 
+            }, 5000);   
+                           
+            eleccion = 0;
+        }
+    </script>
+</body>
+</html>
